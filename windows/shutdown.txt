@@ -1,0 +1,12 @@
+Here's how to do the shutdown functions via a batch file:
+	• shutdown -r — restarts
+	• shutdown -s — shutsdown
+	• shutdown -l — logoff
+	• shutdown -t xx — where xx is number of seconds to wait till shutdown/restart/logoff
+	• shutdown -i — gives you a dialog box to fill in what function you want to use
+	• shutdown -a — aborts the previous shutdown command....very handy!
+	• shutdown -h — hibernate. Easy mistake - it's not for help
+	• shutdown -y — Removes all prompts at shutdown (Help not available in any documentation)
+Additional options:
+	• -f — force the selected action
+	• -t <seconds> — Set time to shutdown. Use -t 0 for "now" 
