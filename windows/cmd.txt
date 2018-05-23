@@ -1,1 +1,1 @@
-env // configue env varablies. 
+ipconfig  // windows IP configuration
