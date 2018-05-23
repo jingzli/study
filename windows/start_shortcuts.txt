@@ -1,0 +1,2 @@
+search at windows START:
+env   // Edit Envirement Variables
