@@ -10,3 +10,6 @@ Here's how to do the shutdown functions via a batch file:
 Additional options:
 	• -f — force the selected action
 	• -t <seconds> — Set time to shutdown. Use -t 0 for "now" 
+
+remote restart a pc: 
+shutdown -r -t 0
