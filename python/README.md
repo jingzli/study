@@ -2,7 +2,8 @@ STUDY python:
 
 # Books or Vedio:
  * [Google Python Classes, by Nick Parlante](googlePythonClass.md)
-   
+
+# TODO
  * [coursera: Python for Everybody Specialization](https://www.coursera.org/specializations/python)
 
  * stanford CS31n: https://github.com/cs231n/cs231n.github.io/blob/master/python-numpy-tutorial.md
@@ -19,3 +20,7 @@ STUDY python:
  
 # Documentation:
  * [python2](https://docs.python.org/2/)
+ 
+# Tools
+   * Jupyter toolbox: http://jupyter.org/install
+  
