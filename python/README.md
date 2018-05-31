@@ -2,8 +2,7 @@ STUDY python:
 
 # Books or Vedio:
  * [Google Python Classes, by Nick Parlante](googlePythonClass.md)
-   *  two day class
-
+   
  * [coursera: Python for Everybody Specialization](https://www.coursera.org/specializations/python)
 
  * stanford CS31n: https://github.com/cs231n/cs231n.github.io/blob/master/python-numpy-tutorial.md
