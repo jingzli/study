@@ -22,5 +22,5 @@ STUDY python:
  * [python2](https://docs.python.org/2/)
  
 # Tools
-   * Jupyter toolbox: http://jupyter.org/install
+   * jupyter notebook: http://jupyter.org/install (add C:\Python27\Scripts in path)
   
