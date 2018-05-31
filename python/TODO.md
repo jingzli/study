@@ -1,7 +1,7 @@
 STUDY python:
 
 # Books or Vedio:
- * [Google Python Classes, by Nick Parlante](https://www.youtube.com/watch?time_continue=35&v=tKTZoB2Vjuk)
+ * [Google Python Classes, by Nick Parlante](googlePythonClass.md)
    *  two day class
 
  * [coursera: Python for Everybody Specialization](https://www.coursera.org/specializations/python)
