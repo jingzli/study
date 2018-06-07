@@ -1,4 +1,6 @@
 # note for day1-2: list, sorting, tuples
+# python naming: XXXs --> list name
+
 
 # string handles similar to a list of chars
 s = 'hello world'

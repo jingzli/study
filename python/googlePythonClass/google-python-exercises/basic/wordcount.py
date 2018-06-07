@@ -44,7 +44,7 @@ import sys
 # You could write a helper utility function that reads a file
 # and builds and returns a word/count dict for it.
 # Then print_words() and print_top() can just call the utility function.
-def read_words_infile(filename):
+def words_couts_infile(filename):
   words_counts = {}                 # hash: key(word), value(word_count)
   f = open(filename, 'rU')          # 'rU': open file with universial new line
   for line in f:
@@ -55,62 +55,63 @@ def read_words_infile(filename):
     for word in words:
       word = remove_special_char(word)
       word = word.lower()           # convet word to lower case
-      if len(word) > 0:             # do nothing for empty string        
-        if word in words_counts:    # if word exists in words_counts, increase count
-          words_counts[word] += 1 
-        else:                       # else define new word with count 1
-          words_counts[word] = 1 
+      if len(word) == 0:            # do not count empty string  
+        continue
+      if word in words_counts:      # if word exists in words_counts, increase count
+        words_counts[word] += 1 
+      else:                         # else define new word with count 1
+        words_counts[word] = 1 
     # print words_counts
   f.close
   return words_counts
   
 def remove_special_char(word):
   clean_word    = ''
-  special_chars = ['\"', '\'', '-','(', ')', ',', '.', ';', '!', '?', ':', '`']
-  deapth        = 4   # looks into first and last 4 chars for special_chars
+  special_chars = ['\"', '\'', '-', '_','(', ')', ',', '.', ';', '!', '?', ':', '`', '[', ']', '*']
+  max_num       = 4   # looks into first and last special_chars, max remove max_num chars
   
   clean_word = word
-  while deapth >0 and len(clean_word):
-    deapth -= 1
+  while max_num >0 and len(clean_word):
+    max_num -= 1
     # only remove leading and ending special_chars
     if clean_word[0] in special_chars:
       clean_word = clean_word [1:]
+      continue
     
     if clean_word[-1] in special_chars:
       clean_word = clean_word [:-1]
+      continue
     
   # print word, clean_word 
   return clean_word
 
 
 def print_words(filename):  
-  words_counts = read_words_infile(filename)
+  words_counts = words_couts_infile(filename)
   # print words_counts.items()
   # print words_counts
   
   # print as sorted key(words)
   for key in sorted(words_counts.keys()):
-    print '%s %d' % (key, words_counts[key])
+    print key, words_counts[key]
   print len(words_counts)
   
   return
 
 
 def sort_fuc(input):
-  # sort by last element of the tuple
-  return input[-1]
+  # return second element (count) of the tuple for sorting
+  return input[1]
   
 def print_top(filename):
   print_num = 20
-  words_counts = read_words_infile(filename)
-  tuples = words_counts.items()
-  for tuple in sorted(tuples, key = sort_fuc, reverse = True):
-    print '%s %d' % (tuple[0], tuple[1])
-    print_num -= 1
-    if print_num < 1:
-      break
-  return
+  words_counts = words_couts_infile(filename)
+  
+  # sort hash and get a tuples list
+  items = sorted(words_counts.items(), key = sort_fuc, reverse = True)
 
+  for item in items[:print_num]:
+    print item[0], item[1]
 
 ####
 # This basic command line argument parsing code is provided and

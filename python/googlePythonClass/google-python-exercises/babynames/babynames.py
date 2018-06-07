@@ -5,9 +5,11 @@
 
 # Google's Python Class
 # http://code.google.com/edu/languages/google-python-class/
-
+# https://www.ssa.gov/oact/babynames/
 import sys
 import re
+import os
+
 
 """Baby Names exercise
 
@@ -32,7 +34,8 @@ Suggested milestones for incremental development:
  -Get the names data into a dict and print it
  -Build the [year, 'name rank', ... ] list and print it
  -Fix main() to use the extract_names list
-"""
+"""  
+debug_flag = 0
 
 def extract_names(filename):
   """
@@ -41,8 +44,66 @@ def extract_names(filename):
   ['2006', 'Aaliyah 91', Aaron 57', 'Abagail 895', ' ...]
   """
   # +++your code here+++
-  return
+  print 'start extract_names', filename
+  f = open(filename, 'r')   # open file as read only 
+  lines = f.readlines()
+  f.close
+  
+  # parse
+  output_list     = []
+  name_rank_dic   = {}     # each item contains: (name, rank)
+  year            = 0
+  
+  for line in lines:
+    ### find year
+    if year == 0:
+      match = re.search('Popularity in (\d+)', line)
+      debug_print (line)
+      if match:
+        year = match.group(1)
+        debug_print( 'year: %s' % year)
+    
+    ### find baby name and ranking
+    else:
+      match = re.search(r'\<td>(\d+)</td><td>(\w+)</td><td>(\w+)</td>', line)
+      debug_print (line)
+      if match:
+        popularity  = match.group(1)
+        boy_name    = match.group(2)
+        girl_name   = match.group(3)
+        debug_print ( "Popularity: %s,  Boy Name: %s,  Girl Name: %s" % (popularity,boy_name,girl_name))
+        
+        ### store name in name_rank_dic, 
+        # choose more popular rank for the same name (something boy girl has same name)
+        for name in [boy_name, girl_name]:
+          if name in name_rank_dic:
+            if popularity < name_rank_dic[name]:
+              name_rank_dic[name] = popularity
+          else:
+            name_rank_dic[name] = popularity
+      else:
+        debug_print ('not match')
+      
+  ### sort name_rank_list and print to file
+  output_list.append(year)
+  for name in sorted(name_rank_dic.keys()): 
+    debug_print ('Name Rank: %s %s' % (name, name_rank_dic[name]))
+    output_list.append('%s %s' % (name, name_rank_dic[name]))
 
+  print_to_file(filename + '.summary', output_list)
+
+
+
+def debug_print (debug_string):
+  if debug_flag == 1:
+    print debug_string
+    
+def print_to_file(filename, data_list):
+  f = open(filename, 'w')
+  # write a list of lines
+  text = '\n'.join(data_list)
+  f.write(text)
+  f.close
 
 def main():
   # This command-line parsing code is provided.
@@ -59,10 +120,22 @@ def main():
   if args[0] == '--summaryfile':
     summary = True
     del args[0]
-
+    
+    if args[0] == '--all':
+      for file in os.listdir('./'):
+        if file.endswith('.html'):
+          extract_names(file)
+    else:
+      for arg in args:
+        extract_names(arg)
+  else:
+    print 'fuction not defined'
   # +++your code here+++
   # For each filename, get the names, then either print the text output
   # or write it to a summary file
   
 if __name__ == '__main__':
+  
   main()
+  
+  print 'done'

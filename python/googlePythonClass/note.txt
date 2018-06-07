@@ -1,0 +1,6 @@
+# search in pyton 
+# check how a function defined
+>>> help(functionName) 
+
+# check module definied
+>>> dir(re)    

@@ -1,0 +1,2 @@
+## seach string in fils, in window command line, this is equivelent to Linux prep
+FINDSTR /C:"Nick" *.summary

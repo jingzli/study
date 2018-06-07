@@ -1,4 +1,7 @@
 import sys
+import os
+
+
 
 def Cat(filename):
   # read the file line by line, use less RAM than read in whole file
@@ -7,7 +10,8 @@ def Cat(filename):
     # print line  # line string include new line at the end
     print line,   # ',' at the end, prohibits the new line at the end
   f.close()       # close file
-  
+
+def Cat2(filename):  
   # read the file as a list, need 20G RAM to store, if the file is 20G big
   f = open(filename, 'rU')
   lines = f.readlines()
@@ -15,13 +19,28 @@ def Cat(filename):
   f.close
   
   
-# python naming: XXXs --> list name
+
+# open a file for writing, this will zero out the file  
+#to do
+def print_line_to_file(filename, lines):
+  f = open(filename, 'w')
+  f.writelines(lines)
+  f.close
+
+def print_text_to_file(filename, text):
+  f = open(filename, 'w')
+  f.write(text)
+  f.close
+
   
-  
-  
-  
-  
-  
+# find files in dir with ending
+def files_in_dir (dir = './', ending= '.txt')
+  for file in os.listdir(dir):
+    if file.endswith(ending):
+      print file  
+
+
+      
 def main():
   Cat(sys.argv[1])
 
