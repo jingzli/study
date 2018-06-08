@@ -45,11 +45,13 @@ def extract_names(filename):
   """
   # +++your code here+++
   print 'start extract_names', filename
-  f = open(filename, 'r')   # open file as read only 
+  
+  # open file as read only, and read file 
+  f = open(filename, 'r')   
   lines = f.readlines()
   f.close
   
-  # parse
+  # parse each line
   output_list     = []
   name_rank_dic   = {}     # each item contains: (name, rank)
   year            = 0
@@ -90,7 +92,7 @@ def extract_names(filename):
     debug_print ('Name Rank: %s %s' % (name, name_rank_dic[name]))
     output_list.append('%s %s' % (name, name_rank_dic[name]))
 
-  print_to_file(filename + '.summary', output_list)
+  return output_list
 
 
 
@@ -98,12 +100,6 @@ def debug_print (debug_string):
   if debug_flag == 1:
     print debug_string
     
-def print_to_file(filename, data_list):
-  f = open(filename, 'w')
-  # write a list of lines
-  text = '\n'.join(data_list)
-  f.write(text)
-  f.close
 
 def main():
   # This command-line parsing code is provided.
@@ -120,22 +116,36 @@ def main():
   if args[0] == '--summaryfile':
     summary = True
     del args[0]
-    
-    if args[0] == '--all':
-      for file in os.listdir('./'):
-        if file.endswith('.html'):
-          extract_names(file)
-    else:
-      for arg in args:
-        extract_names(arg)
-  else:
-    print 'fuction not defined'
+
   # +++your code here+++
   # For each filename, get the names, then either print the text output
-  # or write it to a summary file
+  # or write it to a summary file    
+  ## process all filenames ending with html in the folder
+  if args[0] == '--all':
+    for filename in os.listdir('./'):
+      if filename.endswith('.html'):
+        pass
+  # process filename in argument
+  # else:
+  output_list = [] 
+  for filename in args:
+    if os.path.isfile(filename) and filename.endswith('.html'):
+      output_list = extract_names(filename)
+    else:
+      print 'ERROR:', filename, ' does not exsts or not end with .html!!!'
   
+  # print to file or screen
+  text = '\n'.join(output_list)
+  if summary:
+      outf_name = filename + '.summary'
+      outf = open(outf_name, 'w')
+      outf.write(text + '\n')
+      outf.close()
+      print outf_name, 'created'
+  else:
+    print text
+    
 if __name__ == '__main__':
   
   main()
-  
-  print 'done'
+
