@@ -94,7 +94,49 @@ def extract_names(filename):
 
   return output_list
 
+def extract_names_2(filename):
+  """
+  Given a file name for baby.html, returns a list starting with the year string
+  followed by the name-rank strings in alphabetical order.
+  ['2006', 'Aaliyah 91', Aaron 57', 'Abagail 895', ' ...]
+  """
+  # +++your code here+++
+  print 'start extract_names', filename
+  output_list     = []
 
+  # read whole text and process
+  f = open(filename, 'r')   
+  text = f.read()
+  f.close
+
+  # Get the year
+  year_match = re.search('Popularity in (\d+)', text)
+  if not year_match:
+    sys.stderr.write('Couldn\'t find the year!\n')
+    sys.exit(1)
+  year = year_match.group(1)
+  output_list.append(year)
+  
+  # find baby name and ranking
+  # store name in name_rank_dic, 
+  # choose more popular rank for the same name (something boy girl has same name)
+  matches = re.findall(r'\<td>(\d+)</td><td>(\w+)</td><td>(\w+)</td>', text)
+  name_rank_dic   = {}     # each item contains: (name, rank)
+  for match in matches:
+    (rank,boy_name,girl_name)  = match
+    for name in [boy_name, girl_name]:
+      if name in name_rank_dic:
+        if rank < name_rank_dic[name]:
+          name_rank_dic[name] = rank
+      else:
+        name_rank_dic[name] = rank
+      
+  ### sort name_rank_list and print to file
+  for name in sorted(name_rank_dic.keys()): 
+    debug_print ('Name Rank: %s %s' % (name, name_rank_dic[name]))
+    output_list.append('%s %s' % (name, name_rank_dic[name]))
+
+  return output_list
 
 def debug_print (debug_string):
   if debug_flag == 1:
@@ -122,30 +164,31 @@ def main():
   # or write it to a summary file    
   ## process all filenames ending with html in the folder
   if args[0] == '--all':
+    del args[0]
     for filename in os.listdir('./'):
       if filename.endswith('.html'):
-        pass
-  # process filename in argument
-  # else:
-  output_list = [] 
+        args.append(filename)
+    
+  # process files
   for filename in args:
+    output_list = [] 
     if os.path.isfile(filename) and filename.endswith('.html'):
-      output_list = extract_names(filename)
+      output_list = extract_names_2(filename)
+      # print to file or screen
+      text = '\n'.join(output_list)
+      if summary:
+          outf_name = filename + '.summary'
+          outf = open(outf_name, 'w')
+          outf.write(text + '\n')
+          outf.close()
+          print outf_name, 'created'
+      else:
+        print text
     else:
       print 'ERROR:', filename, ' does not exsts or not end with .html!!!'
   
-  # print to file or screen
-  text = '\n'.join(output_list)
-  if summary:
-      outf_name = filename + '.summary'
-      outf = open(outf_name, 'w')
-      outf.write(text + '\n')
-      outf.close()
-      print outf_name, 'created'
-  else:
-    print text
+   
     
 if __name__ == '__main__':
   
   main()
-
