@@ -25,6 +25,43 @@ def read_urls(filename):
   Screens out duplicate urls and returns the urls sorted into
   increasing order."""
   # +++your code here+++
+  img_urls_dict = {}
+  hostname      = ''
+  result        = []
+  
+  # Extract the hostname from the filename, any(\S+) non white space characters after '_' are hostname
+  hostname_match = re.search(r'_(\S+)', filename)
+  
+  # return empty result if the input filename formate does not match expectatioin
+  if not hostname_match:
+    print 'RE Error', filename
+    return result
+  
+  hostname = hostname_match.group(1)
+  print 'hostname', hostname
+  
+  # read the file and search for image urls
+  f = open(filename, 'rU')
+  lines = f.readlines()
+  for line in lines:
+    match = re.search(r'GET (\S+jpg)', line)
+    if not match: continue
+    
+    # find matched url that contains puzzle
+    path = match.group(1)
+    if 'puzzle' in path:
+      img_url = "http://" + hostname + path
+      
+      # if img_url not in result:
+        # result.append(img_url)
+        
+      # this will only create new item if the img_url does not exist in dict
+      img_urls_dict[img_url] = 1
+  
+  # result = sorted(result)
+  result = sorted(img_urls_dict.keys())
+  # print '\n'.join(result)
+  return result
   
 
 def download_images(img_urls, dest_dir):
@@ -36,7 +73,36 @@ def download_images(img_urls, dest_dir):
   Creates the directory if necessary.
   """
   # +++your code here+++
+  image_index = 0
+  images      = []
+  index_file_path = os.path.join(dest_dir, 'index.html')
   
+
+  
+  # check if the dest_dir exist, make new directory if does not exist. 
+  if not os.path.isdir(dest_dir): 
+    print 'The dest_dir does not exist, make new dir: %s' % dest_dir
+    os.mkdir(dest_dir)
+
+  # download img_url
+  for img_url in img_urls:
+    local_name = 'img%d.jpg' % image_index 
+    image_local_path = os.path.join(dest_dir, local_name)
+    print 'GET %s and save to %s' % (img_url, image_local_path)
+    urllib.urlretrieve(img_url, image_local_path)
+    images.append(local_name)
+    image_index += 1
+    
+  
+  # write to index.html file
+  index_f = open(index_file_path, 'w')
+  index_f.write('<html><body>\n')
+  for image in images:
+    index_f.write('<img src="%s">' % (image))
+  
+  index_f.write('\n</body></html>\n')
+  index_f.close()
+
 
 def main():
   args = sys.argv[1:]

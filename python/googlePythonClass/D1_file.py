@@ -18,6 +18,15 @@ def Cat2(filename):
   print lines
   f.close
   
+def Cat3(filename):  
+  try:
+    f = open(filename, 'rU')
+    text = f.read()
+    print '--------', filename
+    print text
+    f.close
+  except IOError: #print error if fails
+    print 'IO Error', filename
   
 
 # open a file for writing, this will zero out the file  
@@ -34,7 +43,7 @@ def print_text_to_file(filename, text):
 
   
 # find files in dir with ending
-def files_in_dir (dir = './', ending= '.txt')
+def files_in_dir (dir = './', ending= '.txt'):
   for file in os.listdir(dir):
     if file.endswith(ending):
       print file  
@@ -42,7 +51,9 @@ def files_in_dir (dir = './', ending= '.txt')
 
       
 def main():
-  Cat(sys.argv[1])
+  args = sys.argv[1:]
+  for arg in args:
+    Cat3(arg)
 
 if __name__ == '__main__':
   main()

@@ -10,10 +10,11 @@
  
 * note
   * python is similar to Pearl, Bash, Rubby, JavaScript
+  * python is community driving open source, not like Jave is top down design
   * good at quick turnaround, good for small project.
   * python only check a line when it runs that run and show error
   * string never change
   * in C++ or in C, make copy for mamery management, no need to make copy and python has garbage collector
-
+  * 
 
   

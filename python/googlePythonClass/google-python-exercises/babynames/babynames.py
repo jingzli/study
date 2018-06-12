@@ -150,7 +150,8 @@ def main():
   args = sys.argv[1:]
 
   if not args:
-    print 'usage: [--summaryfile] file [file ...]'
+    print 'usage: [--summaryfile]  file [file ...]'
+    print 'usage: [--summaryfile]  --all'
     sys.exit(1)
 
   # Notice the summary flag and remove it from args if it is present.
@@ -163,12 +164,17 @@ def main():
   # For each filename, get the names, then either print the text output
   # or write it to a summary file    
   ## process all filenames ending with html in the folder
+  if not args:
+    print 'usage: [--summaryfile]  file [file ...]'
+    print 'usage: [--summaryfile]  --all'
+    sys.exit(1)
+    
   if args[0] == '--all':
     del args[0]
     for filename in os.listdir('./'):
       if filename.endswith('.html'):
         args.append(filename)
-    
+  
   # process files
   for filename in args:
     output_list = [] 
