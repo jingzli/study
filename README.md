@@ -9,5 +9,9 @@
 * Tools:
 
    * [Web coding](https://www.tutorialspoint.com/codingground.htm): place to try out different platforms and langurages
-   * [onlineGDB](https://www.onlinegdb.com/online_python_compiler): online compiler for c/C++, python and other langurages (not tried)
+
+   * Tools to Try:
+   * [onlineGDB](https://www.onlinegdb.com/online_python_compiler): online compiler for c/C++, python and other langurages
+   * [pythonfiddle](http://pythonfiddle.com/)
+
 
